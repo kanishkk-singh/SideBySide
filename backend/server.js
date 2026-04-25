@@ -1,8 +1,8 @@
-require('dotenv').config();
 const express  = require('express');
 const cors     = require('cors');
 const morgan   = require('morgan');
 const connectDB = require('./config/db');
+const { getJwtSecret } = require('./config/env');
 const { seedTopics } = require('./data/seedTopics');
 
 const authRoutes     = require('./routes/auth');
@@ -38,6 +38,7 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
+    getJwtSecret();
     await connectDB();
     await seedTopics();
     app.listen(PORT, () => console.log(`SideBySide API running on port ${PORT}`));
